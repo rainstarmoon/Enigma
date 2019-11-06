@@ -1,9 +1,11 @@
 package com.xiazeyu.algorithm.rsa;
 
-public interface RSASignature {
+public class RSASignature {
 
-    String sign();
+    /**
+     * 签名算法
+     */
+    public static final String SIGN_ALGORITHMS = "SHA1WithRSA";
 
-    String check();
-    
+
 }
