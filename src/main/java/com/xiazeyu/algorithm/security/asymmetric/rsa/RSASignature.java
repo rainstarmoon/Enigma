@@ -1,4 +1,4 @@
-package com.xiazeyu.algorithm.rsa;
+package com.xiazeyu.algorithm.security.asymmetric.rsa;
 
 public class RSASignature {
 

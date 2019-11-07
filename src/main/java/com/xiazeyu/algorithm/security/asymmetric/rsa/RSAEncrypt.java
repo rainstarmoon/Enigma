@@ -1,4 +1,7 @@
-package com.xiazeyu.algorithm.rsa;
+package com.xiazeyu.algorithm.security.asymmetric.rsa;
+
+import com.xiazeyu.algorithm.security.asymmetric.rsa.model.RSAPrivateParam;
+import com.xiazeyu.algorithm.security.asymmetric.rsa.model.RSAPublicParam;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -7,29 +10,23 @@ import javax.crypto.NoSuchPaddingException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 加密
  */
 public class RSAEncrypt {
 
-    public static byte[] encrypt(RSAPublicKey publicKey, byte[] plainTextData) {
-        if (publicKey == null) {
-            throw new RuntimeException("加密公钥为null");
-        }
-        return encrypt((Key) publicKey, plainTextData);
+    public static byte[] encrypt(RSAPublicParam publicParam, byte[] cipherTextData) {
+        return encrypt(cipherTextData, publicParam.getKey(), publicParam.getEncryptByteCount());
     }
 
-    public static byte[] encrypt(RSAPrivateKey privateKey, byte[] plainTextData) {
-        if (privateKey == null) {
-            throw new RuntimeException("加密私钥为null");
-        }
-        return encrypt((Key) privateKey, plainTextData);
+    public static byte[] encrypt(RSAPrivateParam privateParam, byte[] cipherTextData) {
+        return encrypt(cipherTextData, privateParam.getKey(), privateParam.getEncryptByteCount());
     }
 
-    private static byte[] encrypt(Key key, byte[] plainTextData) {
+    private static byte[] encrypt(byte[] plainTextData, Key key, int encryptByteCount) {
         if (key == null) {
             throw new RuntimeException("加密密钥为null");
         }
@@ -39,7 +36,12 @@ public class RSAEncrypt {
         try {
             Cipher cipher = Cipher.getInstance(RSAKeyUtil.RSA);
             cipher.init(Cipher.ENCRYPT_MODE, key);
-            return cipher.doFinal(plainTextData);
+            List<byte[]> plainTextBytes = RSAKeyUtil.splitArray(plainTextData, encryptByteCount);
+            List<byte[]> cipherTextBytes = new ArrayList<>();
+            for (byte[] plainTextByte : plainTextBytes) {
+                cipherTextBytes.add(cipher.doFinal(plainTextByte));
+            }
+            return RSAKeyUtil.assembleArray(cipherTextBytes);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("无此加密算法", e);
         } catch (NoSuchPaddingException e) {
