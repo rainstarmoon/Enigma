@@ -1,7 +1,6 @@
 package com.xiazeyu.algorithm.rsa;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.security.*;
@@ -81,64 +80,26 @@ public class RSAKeyUtil {
     }
 
     public static void writerKey(String keyStr, String filePath) {
-        FileWriter fileWriter = null;
-        BufferedWriter bufferedWriter = null;
-        try {
-            fileWriter = new FileWriter(filePath);
-            bufferedWriter = new BufferedWriter(fileWriter);
+        try (FileWriter fileWriter = new FileWriter(filePath);
+             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)
+        ) {
             bufferedWriter.write(keyStr);
             bufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            IOUtils.closeQuietly();
-            if (bufferedWriter != null) {
-                try {
-                    bufferedWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
     public static String readKey(String filePath) {
-        FileReader fileReader = null;
-        BufferedReader br = null;
         StringBuilder stringBuilder = new StringBuilder();
-        try {
-            fileReader = new FileReader(filePath);
-            br = new BufferedReader(fileReader);
-            String readLine = null;
-
-            while ((readLine = br.readLine()) != null) {
+        try (FileReader fileReader = new FileReader(filePath);
+             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+            String readLine;
+            while ((readLine = bufferedReader.readLine()) != null) {
                 stringBuilder.append(readLine);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (fileReader != null) {
-                try {
-                    fileReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return stringBuilder.toString();
     }

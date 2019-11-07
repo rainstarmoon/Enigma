@@ -46,9 +46,9 @@ public class RSAEncrypt {
             throw new RuntimeException(e);
         } catch (InvalidKeyException e) {
             throw new RuntimeException("加密密钥非法", e);
-        } catch (BadPaddingException e) {
-            throw new RuntimeException("明文长度非法", e);
         } catch (IllegalBlockSizeException e) {
+            throw new RuntimeException("明文长度非法", e);
+        } catch (BadPaddingException e) {
             throw new RuntimeException("明文数据已损坏", e);
         }
     }
