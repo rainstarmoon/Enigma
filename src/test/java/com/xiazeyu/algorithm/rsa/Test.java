@@ -1,9 +1,6 @@
 package com.xiazeyu.algorithm.rsa;
 
-import com.xiazeyu.algorithm.security.asymmetric.rsa.RSADecrypt;
-import com.xiazeyu.algorithm.security.asymmetric.rsa.RSAEncrypt;
-import com.xiazeyu.algorithm.security.asymmetric.rsa.RSAKeyGenerateTool;
-import com.xiazeyu.algorithm.security.asymmetric.rsa.RSAKeyUtil;
+import com.xiazeyu.algorithm.security.asymmetric.rsa.*;
 import com.xiazeyu.algorithm.security.asymmetric.rsa.model.RSAPrivateParam;
 import com.xiazeyu.algorithm.security.asymmetric.rsa.model.RSAPublicParam;
 
@@ -15,10 +12,14 @@ public class Test {
     public static void main(String[] args) {
         init();
         System.out.println("init over");
-        encrypt();
-        System.out.println("encrypt over");
-        decrypt();
-        System.out.println("decrypt over");
+//        encrypt();
+//        System.out.println("encrypt over");
+//        decrypt();
+//        System.out.println("decrypt over");
+//        String sign = sign();
+//        System.out.println("sign over");
+//        check(sign);
+//        System.out.println("check over");
     }
 
     private static void init() {
@@ -109,6 +110,28 @@ public class Test {
             out.write(decrypt);
             out.flush();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String sign() {
+        String sign = null;
+        try {
+            RSAPrivateParam param = RSAKeyUtil.parseByPKCS8(RSAKeyUtil.readFile("./key/privateKey.txt"));
+            sign = RSASignature.sign("夏", param);
+            System.out.println(sign);
+        } catch (InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+        return sign;
+    }
+
+    private static void check(String sign) {
+        try {
+            RSAPublicParam param = RSAKeyUtil.parseByX509(RSAKeyUtil.readFile("./key/publicKey.txt"));
+            boolean test = RSASignature.check("夏", sign, param);
+            System.out.println(test);
+        } catch (InvalidKeySpecException e) {
             e.printStackTrace();
         }
     }

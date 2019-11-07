@@ -12,6 +12,10 @@ public class RSAPublicParam extends RSAParam {
         super.keySize = keySize;
     }
 
+    public RSAPublicKey getPublicKey() {
+        return publicKey;
+    }
+
     @Override
     public Key getKey() {
         return publicKey;

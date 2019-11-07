@@ -12,6 +12,10 @@ public class RSAPrivateParam extends RSAParam {
         super.keySize = keySize;
     }
 
+    public RSAPrivateKey getPrivateKey() {
+        return privateKey;
+    }
+
     @Override
     public Key getKey() {
         return privateKey;
