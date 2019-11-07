@@ -1,6 +1,5 @@
-package com.xiazeyu.algorithm.rsa;
+package com.xiazeyu.algorithm.security.asymmetric.rsa;
 
-import com.xiazeyu.algorithm.security.asymmetric.rsa.*;
 import com.xiazeyu.algorithm.security.asymmetric.rsa.model.RSAPrivateParam;
 import com.xiazeyu.algorithm.security.asymmetric.rsa.model.RSAPublicParam;
 
@@ -10,16 +9,16 @@ import java.security.spec.InvalidKeySpecException;
 public class Test {
 
     public static void main(String[] args) {
-        init();
-        System.out.println("init over");
-//        encrypt();
-//        System.out.println("encrypt over");
-//        decrypt();
-//        System.out.println("decrypt over");
-//        String sign = sign();
-//        System.out.println("sign over");
-//        check(sign);
-//        System.out.println("check over");
+//        init();
+//        System.out.println("init over");
+        encrypt();
+        System.out.println("encrypt over");
+        decrypt();
+        System.out.println("decrypt over");
+        String sign = sign();
+        System.out.println("sign over");
+        check(sign);
+        System.out.println("check over");
     }
 
     private static void init() {
